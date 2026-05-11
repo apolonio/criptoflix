@@ -1,12 +1,27 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
---g900:#0D2410;--g800:#173404;--g700:#1F4A08;--g600:#27500A;--g500:#3B6D11;--g400:#4E8A18;--g300:#639922;--g200:#97C459;--g100:#C0DD97;--g50:#EAF3DE;
---a400:#BA7517;--a50:#FAEEDA;--a800:#633806;
---r400:#E24B4A;--r50:#FCEBEB;--r800:#791F1F;
+:root {
+  /* Paleta Crypto (Verde Neon) */
+  --g900: #061f14; --g800: #0a2e1e; --g700: #0e3d28; --g600: #145c3b; --g500: #197a4e; --g400: #21a368; --g300: #00ff88; --g200: #66ffb7; --g100: #b3ffe0; --g50: #e6fff4;
+  
+  /* Alertas (Amarelo e Vermelho adaptados para Dark Mode) */
+  --a400: #F5A623; --a50: #332200; --a800: #FFE6B3;
+  --r400: #FF4D4D; --r50: #330f0f; --r800: #FFB3B3;
+
+  /* Variáveis base do sistema (Fundo e Textos) */
+  --color-background-tertiary: #0a0a0a; /* Fundo principal da tela */
+  --color-background-primary: #141414; /* Fundo dos cards e modais */
+  --color-background-secondary: #1f1f1f;
+  --color-text-primary: #f0f0f0;
+  --color-text-secondary: #a0a0a0;
+
+  /* Utilitários */
+  --border-radius-lg: 16px;
+  --border-radius-md: 8px;
+  --font-sans: 'Inter', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
-body{font-family:var(--font-sans);font-size:14px;color:var(--color-text-primary)}
+body{font-family:var(--font-sans);font-size:14px;color:var(--color-text-primary);background:var(--color-background-tertiary);}
 .app{display:flex;flex-direction:column}
 .topbar{background:var(--g800);padding:13px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0}
 .topbar h1{font-size:16px;font-weight:500;color:#EAF3DE;letter-spacing:0.02em}
