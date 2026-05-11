@@ -1,40 +1,448 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criptoflix - Em Breve</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-        .container {
-            max-width: 600px;
-            padding: 20px;
-        }
-        h1 {
-            color: #00ff88;
-            font-size: 3rem;
-            margin-bottom: 10px;
-        }
-        p {
-            font-size: 1.2rem;
-            color: #b3b3b3;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Criptoflix</h1>
-        <p>A landing page do nosso futuro produto será lançada em breve.</p>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+--g900:#0D2410;--g800:#173404;--g700:#1F4A08;--g600:#27500A;--g500:#3B6D11;--g400:#4E8A18;--g300:#639922;--g200:#97C459;--g100:#C0DD97;--g50:#EAF3DE;
+--a400:#BA7517;--a50:#FAEEDA;--a800:#633806;
+--r400:#E24B4A;--r50:#FCEBEB;--r800:#791F1F;
+}
+body{font-family:var(--font-sans);font-size:14px;color:var(--color-text-primary)}
+.app{display:flex;flex-direction:column}
+.topbar{background:var(--g800);padding:13px 20px;display:flex;align-items:center;gap:14px;border-radius:var(--border-radius-lg) var(--border-radius-lg) 0 0}
+.topbar h1{font-size:16px;font-weight:500;color:#EAF3DE;letter-spacing:0.02em}
+.topbar span{font-size:12px;color:var(--g100)}
+.logo-box{width:30px;height:30px;background:var(--g300);border-radius:6px;display:flex;align-items:center;justify-content:center}
+.nav{background:var(--g700);padding:0 20px;display:flex;gap:2px;border-bottom:2px solid var(--g600)}
+.nav button{padding:10px 16px;border:none;background:transparent;cursor:pointer;font-size:13px;color:var(--g100);font-family:var(--font-sans);border-bottom:2px solid transparent;margin-bottom:-2px;transition:all 0.15s}
+.nav button.active{color:#EAF3DE;border-bottom-color:#C0DD97;font-weight:500}
+.nav button:hover:not(.active){background:rgba(255,255,255,0.06);color:#EAF3DE}
+.content{padding:20px;background:var(--color-background-tertiary)}
+.section{display:none}
+.section.active{display:block}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.card{background:var(--color-background-primary);border:1px solid var(--g100);border-radius:var(--border-radius-lg);padding:16px}
+.card h3{font-size:11px;font-weight:500;margin-bottom:12px;color:var(--g500);text-transform:uppercase;letter-spacing:0.06em}
+.metric{background:var(--g50);border:1px solid var(--g100);border-radius:var(--border-radius-md);padding:12px 16px}
+.metric .label{font-size:12px;color:var(--g600);margin-bottom:4px}
+.metric .value{font-size:24px;font-weight:500;color:var(--g800)}
+.metric .value.amber{color:var(--a400)}
+.metric .value.red{color:var(--r400)}
+label{display:block;font-size:12px;color:var(--g600);margin-bottom:4px;margin-top:10px;font-weight:500}
+input,select,textarea{width:100%;padding:7px 10px;border:1px solid var(--g100);border-radius:var(--border-radius-md);background:var(--color-background-primary);color:var(--color-text-primary);font-size:13px;font-family:var(--font-sans);outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--g300);box-shadow:0 0 0 2px var(--g50)}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:7px 16px;border-radius:var(--border-radius-md);border:1px solid var(--g200);background:transparent;cursor:pointer;font-size:13px;font-family:var(--font-sans);color:var(--g700);transition:all 0.15s}
+.btn:hover{background:var(--g50);border-color:var(--g300)}
+.btn:active{transform:scale(0.98)}
+.btn-primary{background:var(--g500);border-color:var(--g600);color:#EAF3DE;font-weight:500}
+.btn-primary:hover{background:var(--g600);border-color:var(--g700);color:#EAF3DE}
+.btn-warn{background:var(--a50);border-color:var(--a400);color:var(--a800)}
+.btn-warn:hover{background:#FAC775;color:var(--a800)}
+.btn-danger{background:var(--r50);border-color:var(--r400);color:var(--r800)}
+.btn-danger:hover{background:#F7C1C1;color:var(--r800)}
+.badge{display:inline-block;padding:3px 10px;border-radius:999px;font-size:11px;font-weight:500}
+.badge-green{background:var(--g50);color:var(--g700);border:1px solid var(--g200)}
+.badge-amber{background:var(--a50);color:var(--a800);border:1px solid #FAC775}
+.badge-gray{background:var(--color-background-secondary);color:var(--color-text-secondary)}
+table{width:100%;border-collapse:collapse;table-layout:fixed}
+th{font-size:11px;font-weight:500;color:var(--g600);text-align:left;padding:9px 12px;border-bottom:1px solid var(--g100);text-transform:uppercase;letter-spacing:0.05em;background:var(--g50)}
+td{font-size:13px;padding:9px 12px;border-bottom:0.5px solid var(--g50);color:var(--color-text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--g50)}
+.form-row{display:grid;gap:12px}
+.form-row.cols2{grid-template-columns:1fr 1fr}
+.form-row.cols3{grid-template-columns:1fr 1fr 1fr}
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(13,36,16,0.45);z-index:100;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--color-background-primary);border:1px solid var(--g200);border-radius:var(--border-radius-lg);padding:22px;width:530px;max-width:95vw;max-height:82vh;overflow-y:auto}
+.modal h2{font-size:15px;font-weight:500;margin-bottom:4px;color:var(--g800)}
+.modal .modal-sub{font-size:12px;color:var(--g500);margin-bottom:16px}
+.modal-divider{height:1px;background:var(--g50);margin:16px 0}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:16px;padding-top:14px;border-top:1px solid var(--g50)}
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.section-header h2{font-size:15px;font-weight:500;color:var(--g800)}
+.imovel-card{background:var(--color-background-primary);border:1px solid var(--g100);border-left:3px solid var(--g300);border-radius:var(--border-radius-lg);padding:14px 16px;transition:border-color 0.15s}
+.imovel-card:hover{border-color:var(--g300);border-left-color:var(--g500)}
+.imovel-card .addr{font-weight:500;font-size:14px;margin-bottom:4px;color:var(--g800)}
+.imovel-card .details{font-size:12px;color:var(--g500);display:flex;gap:12px;flex-wrap:wrap}
+.imovel-card .status-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:0.5px solid var(--g50)}
+.row-actions{display:flex;gap:6px}
+.report-row{display:flex;align-items:center;padding:12px 14px;border-radius:var(--border-radius-md);border:1px solid var(--g100);margin-bottom:8px;gap:12px;background:var(--color-background-primary)}
+.report-row.occupied{border-left:3px solid var(--g300);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0}
+.report-row.free{border-left:3px solid var(--a400);border-radius:0 var(--border-radius-md) var(--border-radius-md) 0}
+.report-row .rinfo{flex:1;min-width:0}
+.report-row .raddr{font-weight:500;font-size:13px;color:var(--g800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.report-row .rdetail{font-size:12px;color:var(--g500);margin-top:2px}
+.dash-item{display:flex;align-items:center;justify-content:space-between;padding:8px 0;border-bottom:0.5px solid var(--g50)}
+.dash-item:last-child{border-bottom:none}
+.empty-state{font-size:13px;color:var(--g400);padding:12px 0;text-align:center}
+</style>
+
+<h2 class="sr-only" style="position:absolute;left:-9999px">Sistema ImóvelGest — gestão de imóveis de baixa renda</h2>
+
+<div class="app">
+  <div class="topbar">
+    <div class="logo-box">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24"><path fill="#EAF3DE" d="M3 9.5L12 3l9 6.5V20a1 1 0 01-1 1H4a1 1 0 01-1-1V9.5z"/></svg>
     </div>
-</body>
-</html>
+    <h1>ImóvelGest</h1>
+    <span style="margin-left:4px">Gestão de imóveis de baixa renda</span>
+  </div>
+  <div class="nav">
+    <button class="active" onclick="switchTab('dashboard',this)">Painel</button>
+    <button onclick="switchTab('imoveis',this)">Imóveis</button>
+    <button onclick="switchTab('clientes',this)">Clientes</button>
+    <button onclick="switchTab('locacoes',this)">Locações</button>
+    <button onclick="switchTab('relatorio',this)">Relatório</button>
+  </div>
+  <div class="content">
+
+    <div id="tab-dashboard" class="section active">
+      <div class="grid4" style="margin-bottom:16px">
+        <div class="metric"><div class="label">Total de imóveis</div><div class="value" id="m-total">0</div></div>
+        <div class="metric"><div class="label">Ocupados</div><div class="value" id="m-ocupados">0</div></div>
+        <div class="metric"><div class="label">Disponíveis</div><div class="value amber" id="m-livres">0</div></div>
+        <div class="metric"><div class="label">Taxa de ocupação</div><div class="value" id="m-taxa">0%</div></div>
+      </div>
+      <div class="grid2">
+        <div class="card"><h3>Imóveis recentes</h3><div id="dash-imoveis"><div class="empty-state">Nenhum imóvel cadastrado.</div></div></div>
+        <div class="card"><h3>Locações ativas</h3><div id="dash-locacoes"><div class="empty-state">Nenhuma locação ativa.</div></div></div>
+      </div>
+    </div>
+
+    <div id="tab-imoveis" class="section">
+      <div class="section-header">
+        <h2>Imóveis cadastrados</h2>
+        <button class="btn btn-primary" onclick="openModal('modal-imovel')">+ Novo imóvel</button>
+      </div>
+      <div id="lista-imoveis" class="grid2"><div style="grid-column:1/-1" class="empty-state">Nenhum imóvel cadastrado. Clique em "+ Novo imóvel" para começar.</div></div>
+    </div>
+
+    <div id="tab-clientes" class="section">
+      <div class="section-header">
+        <h2>Clientes</h2>
+        <button class="btn btn-primary" onclick="openModal('modal-cliente')">+ Novo cliente</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr><th style="width:28%">Nome</th><th style="width:20%">CPF</th><th style="width:22%">Telefone</th><th style="width:20%">E-mail</th><th style="width:10%"></th></tr></thead>
+          <tbody id="tbody-clientes"><tr><td colspan="5" class="empty-state">Nenhum cliente cadastrado.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-locacoes" class="section">
+      <div class="section-header">
+        <h2>Locações</h2>
+        <button class="btn btn-primary" onclick="openModal('modal-locacao')">+ Nova locação</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr><th style="width:27%">Imóvel</th><th style="width:22%">Locatário</th><th style="width:13%">Início</th><th style="width:15%">Prazo / Término</th><th style="width:12%">Valor/mês</th><th style="width:11%"></th></tr></thead>
+          <tbody id="tbody-locacoes"><tr><td colspan="6" class="empty-state">Nenhuma locação cadastrada.</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div id="tab-relatorio" class="section">
+      <div class="section-header">
+        <h2>Relatório de ocupação</h2>
+        <div style="display:flex;gap:8px">
+          <select id="filtro-relatorio" onchange="renderRelatorio()" style="width:160px">
+            <option value="todos">Todos os imóveis</option>
+            <option value="ocupado">Somente ocupados</option>
+            <option value="livre">Somente disponíveis</option>
+          </select>
+          <button class="btn" onclick="sendPrompt('Gere um resumo do relatório de ocupação dos imóveis cadastrados no ImóvelGest')">Resumo com IA ↗</button>
+        </div>
+      </div>
+      <div id="relatorio-content"><div class="empty-state">Cadastre imóveis e locações para visualizar o relatório.</div></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-imovel">
+  <div class="modal">
+    <h2 id="modal-imovel-title">Cadastrar imóvel</h2>
+    <div class="modal-sub">Preencha os dados do imóvel</div>
+    <input type="hidden" id="imovel-id">
+    <div class="form-row cols2">
+      <div><label>Endereço</label><input id="i-endereco" placeholder="Rua, número"></div>
+      <div><label>Bairro</label><input id="i-bairro" placeholder="Bairro"></div>
+    </div>
+    <div class="form-row cols3">
+      <div><label>CEP</label><input id="i-cep" placeholder="00000-000" maxlength="9"></div>
+      <div><label>Cidade</label><input id="i-cidade" placeholder="Cidade" value="Brasília"></div>
+      <div><label>UF</label><input id="i-uf" placeholder="DF" maxlength="2" value="DF"></div>
+    </div>
+    <div class="form-row cols3">
+      <div><label>Tipo de imóvel</label>
+        <select id="i-tamanho"><option>Kitnet</option><option>Apartamento</option><option>Casa</option><option>Sobrado</option></select>
+      </div>
+      <div><label>Nº de quartos</label><input id="i-quartos" type="number" min="1" max="10" placeholder="2"></div>
+      <div><label>Área total (m²)</label><input id="i-area" type="number" placeholder="45"></div>
+    </div>
+    <div class="form-row cols2">
+      <div><label>Valor de compra (R$)</label><input id="i-valor-compra" type="number" placeholder="80000"></div>
+      <div><label>Valor de aluguel (R$)</label><input id="i-valor-aluguel" type="number" placeholder="600"></div>
+    </div>
+    <div><label>Observações</label><textarea id="i-obs" rows="2" placeholder="Informações adicionais..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-imovel')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarImovel()">Salvar imóvel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-cliente">
+  <div class="modal">
+    <h2 id="modal-cliente-title">Cadastrar cliente</h2>
+    <div class="modal-sub">Dados do locatário</div>
+    <input type="hidden" id="cliente-id">
+    <div class="form-row cols2">
+      <div><label>Nome completo</label><input id="c-nome" placeholder="Nome do locatário"></div>
+      <div><label>CPF</label><input id="c-cpf" placeholder="000.000.000-00" maxlength="14"></div>
+    </div>
+    <div class="form-row cols2">
+      <div><label>Data de nascimento</label><input id="c-nasc" type="date"></div>
+      <div><label>RG</label><input id="c-rg" placeholder="0000000-0"></div>
+    </div>
+    <div class="form-row cols2">
+      <div><label>Telefone</label><input id="c-tel" placeholder="(61) 99999-9999" maxlength="15"></div>
+      <div><label>E-mail</label><input id="c-email" placeholder="email@exemplo.com"></div>
+    </div>
+    <div><label>Endereço atual</label><input id="c-endereco" placeholder="Endereço de residência atual"></div>
+    <div><label>Observações</label><textarea id="c-obs" rows="2" placeholder="Informações adicionais..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-cliente')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarCliente()">Salvar cliente</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-locacao">
+  <div class="modal">
+    <h2 id="modal-locacao-title">Registrar locação</h2>
+    <div class="modal-sub">Vincule imóvel e cliente, defina o período</div>
+    <input type="hidden" id="locacao-id">
+    <div class="form-row cols2">
+      <div><label>Imóvel</label><select id="l-imovel"><option value="">Selecione...</option></select></div>
+      <div><label>Cliente / Locatário</label><select id="l-cliente"><option value="">Selecione...</option></select></div>
+    </div>
+    <div class="form-row cols3">
+      <div><label>Data de início</label><input id="l-inicio" type="date"></div>
+      <div><label>Prazo (meses)</label><input id="l-prazo" type="number" min="1" max="120" placeholder="12"></div>
+      <div><label>Valor mensal (R$)</label><input id="l-valor" type="number" placeholder="600"></div>
+    </div>
+    <div class="form-row cols2">
+      <div><label>Caução (R$)</label><input id="l-caucao" type="number" placeholder="1200"></div>
+      <div><label>Dia de vencimento</label><input id="l-vencimento" type="number" min="1" max="31" placeholder="5"></div>
+    </div>
+    <div><label>Observações</label><textarea id="l-obs" rows="2" placeholder="Observações do contrato..."></textarea></div>
+    <div class="modal-actions">
+      <button class="btn" onclick="closeModal('modal-locacao')">Cancelar</button>
+      <button class="btn btn-primary" onclick="salvarLocacao()">Salvar locação</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let imoveis=JSON.parse(localStorage.getItem('img_imoveis')||'[]');
+let clientes=JSON.parse(localStorage.getItem('img_clientes')||'[]');
+let locacoes=JSON.parse(localStorage.getItem('img_locacoes')||'[]');
+
+function save(){
+  localStorage.setItem('img_imoveis',JSON.stringify(imoveis));
+  localStorage.setItem('img_clientes',JSON.stringify(clientes));
+  localStorage.setItem('img_locacoes',JSON.stringify(locacoes));
+}
+function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
+function fmtDate(d){if(!d)return'—';const[y,m,day]=d.split('-');return day+'/'+m+'/'+y}
+function fmtMoney(v){return'R$ '+Number(v).toLocaleString('pt-BR',{minimumFractionDigits:0,maximumFractionDigits:0})}
+function addMonths(ds,m){const d=new Date(ds+'T00:00:00');d.setMonth(d.getMonth()+parseInt(m));return d.toISOString().slice(0,10)}
+function isOcupado(id){return locacoes.some(l=>l.imovelId===id&&l.ativa)}
+
+function switchTab(t,btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.getElementById('tab-'+t).classList.add('active');
+  btn.classList.add('active');
+  if(t==='dashboard')renderDashboard();
+  if(t==='imoveis')renderImoveis();
+  if(t==='clientes')renderClientes();
+  if(t==='locacoes')renderLocacoes();
+  if(t==='relatorio')renderRelatorio();
+}
+
+function openModal(id){if(id==='modal-locacao')populateSelects();document.getElementById(id).classList.add('open')}
+function closeModal(id){
+  document.getElementById(id).classList.remove('open');
+  document.querySelectorAll('#'+id+' input:not([type=hidden]),#'+id+' textarea').forEach(el=>el.value=el.defaultValue||'');
+  document.querySelectorAll('#'+id+' [type=hidden]').forEach(el=>el.value='');
+  document.getElementById(id+'-title') && (document.getElementById(id+'-title').textContent = id==='modal-imovel'?'Cadastrar imóvel':id==='modal-cliente'?'Cadastrar cliente':'Registrar locação');
+}
+document.querySelectorAll('.modal-bg').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)closeModal(m.id)}));
+
+function salvarImovel(){
+  const id=document.getElementById('imovel-id').value||uid();
+  const obj={id,endereco:document.getElementById('i-endereco').value,bairro:document.getElementById('i-bairro').value,cep:document.getElementById('i-cep').value,cidade:document.getElementById('i-cidade').value,uf:document.getElementById('i-uf').value,quartos:document.getElementById('i-quartos').value,area:document.getElementById('i-area').value,tamanho:document.getElementById('i-tamanho').value,valorCompra:document.getElementById('i-valor-compra').value,valorAluguel:document.getElementById('i-valor-aluguel').value,obs:document.getElementById('i-obs').value};
+  if(!obj.endereco){alert('Informe o endereço.');return}
+  const idx=imoveis.findIndex(x=>x.id===id);
+  if(idx>=0)imoveis[idx]=obj;else imoveis.push(obj);
+  save();closeModal('modal-imovel');renderImoveis();renderDashboard();
+}
+
+function renderImoveis(){
+  const el=document.getElementById('lista-imoveis');
+  if(!imoveis.length){el.innerHTML='<div style="grid-column:1/-1" class="empty-state">Nenhum imóvel cadastrado.</div>';return}
+  el.innerHTML=imoveis.map(im=>{
+    const ocup=isOcupado(im.id);
+    return`<div class="imovel-card">
+      <div class="addr">${im.tamanho} — ${im.endereco}${im.bairro?', '+im.bairro:''}</div>
+      <div class="details">
+        <span>CEP ${im.cep||'—'}</span><span>${im.quartos||'—'} qto(s)</span><span>${im.area||'—'} m²</span>${im.valorAluguel?'<span>'+fmtMoney(im.valorAluguel)+'/mês</span>':''}
+      </div>
+      <div class="status-bar">
+        <span class="badge ${ocup?'badge-green':'badge-amber'}">${ocup?'Ocupado':'Disponível'}</span>
+        <div class="row-actions">
+          <button class="btn" style="padding:4px 10px;font-size:12px" onclick="editImovel('${im.id}')">Editar</button>
+          <button class="btn btn-danger" style="padding:4px 10px;font-size:12px" onclick="delImovel('${im.id}')">Excluir</button>
+        </div>
+      </div>
+    </div>`}).join('');
+}
+
+function editImovel(id){
+  const im=imoveis.find(x=>x.id===id);
+  document.getElementById('modal-imovel-title').textContent='Editar imóvel';
+  document.getElementById('imovel-id').value=im.id;
+  ['endereco','bairro','cep','cidade','uf','quartos','area','obs'].forEach(f=>document.getElementById('i-'+f).value=im[f]||'');
+  document.getElementById('i-tamanho').value=im.tamanho;
+  document.getElementById('i-valor-compra').value=im.valorCompra||'';
+  document.getElementById('i-valor-aluguel').value=im.valorAluguel||'';
+  openModal('modal-imovel');
+}
+function delImovel(id){
+  if(!confirm('Excluir imóvel? As locações vinculadas também serão removidas.'))return;
+  imoveis=imoveis.filter(x=>x.id!==id);locacoes=locacoes.filter(x=>x.imovelId!==id);
+  save();renderImoveis();renderDashboard();
+}
+
+function salvarCliente(){
+  const id=document.getElementById('cliente-id').value||uid();
+  const obj={id,nome:document.getElementById('c-nome').value,cpf:document.getElementById('c-cpf').value,nasc:document.getElementById('c-nasc').value,tel:document.getElementById('c-tel').value,email:document.getElementById('c-email').value,rg:document.getElementById('c-rg').value,endereco:document.getElementById('c-endereco').value,obs:document.getElementById('c-obs').value};
+  if(!obj.nome){alert('Informe o nome.');return}
+  const idx=clientes.findIndex(x=>x.id===id);
+  if(idx>=0)clientes[idx]=obj;else clientes.push(obj);
+  save();closeModal('modal-cliente');renderClientes();
+}
+
+function renderClientes(){
+  const tb=document.getElementById('tbody-clientes');
+  if(!clientes.length){tb.innerHTML='<tr><td colspan="5" class="empty-state">Nenhum cliente cadastrado.</td></tr>';return}
+  tb.innerHTML=clientes.map(c=>`<tr>
+    <td>${c.nome}</td><td>${c.cpf||'—'}</td><td>${c.tel||'—'}</td><td>${c.email||'—'}</td>
+    <td><div class="row-actions">
+      <button class="btn" style="padding:3px 8px;font-size:11px" onclick="editCliente('${c.id}')">Editar</button>
+      <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="delCliente('${c.id}')">Excluir</button>
+    </div></td>
+  </tr>`).join('');
+}
+function editCliente(id){
+  const c=clientes.find(x=>x.id===id);
+  document.getElementById('modal-cliente-title').textContent='Editar cliente';
+  document.getElementById('cliente-id').value=c.id;
+  ['nome','cpf','nasc','tel','email','rg','endereco','obs'].forEach(f=>document.getElementById('c-'+f).value=c[f]||'');
+  openModal('modal-cliente');
+}
+function delCliente(id){
+  if(!confirm('Excluir cliente?'))return;
+  clientes=clientes.filter(x=>x.id!==id);save();renderClientes();
+}
+
+function populateSelects(){
+  document.getElementById('l-imovel').innerHTML='<option value="">Selecione um imóvel...</option>'+
+    imoveis.filter(im=>!isOcupado(im.id)).map(im=>`<option value="${im.id}">${im.tamanho} — ${im.endereco}</option>`).join('');
+  document.getElementById('l-cliente').innerHTML='<option value="">Selecione um cliente...</option>'+
+    clientes.map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+}
+
+function salvarLocacao(){
+  const id=document.getElementById('locacao-id').value||uid();
+  const obj={id,imovelId:document.getElementById('l-imovel').value,clienteId:document.getElementById('l-cliente').value,inicio:document.getElementById('l-inicio').value,prazo:document.getElementById('l-prazo').value,valor:document.getElementById('l-valor').value,caucao:document.getElementById('l-caucao').value,vencimento:document.getElementById('l-vencimento').value,obs:document.getElementById('l-obs').value,ativa:true};
+  if(!obj.imovelId||!obj.clienteId||!obj.inicio||!obj.prazo){alert('Preencha imóvel, cliente, data de início e prazo.');return}
+  const idx=locacoes.findIndex(x=>x.id===id);
+  if(idx>=0)locacoes[idx]=obj;else locacoes.push(obj);
+  save();closeModal('modal-locacao');renderLocacoes();renderDashboard();
+}
+
+function renderLocacoes(){
+  const tb=document.getElementById('tbody-locacoes');
+  if(!locacoes.length){tb.innerHTML='<tr><td colspan="6" class="empty-state">Nenhuma locação cadastrada.</td></tr>';return}
+  tb.innerHTML=locacoes.map(l=>{
+    const im=imoveis.find(x=>x.id===l.imovelId);
+    const cl=clientes.find(x=>x.id===l.clienteId);
+    const fim=l.inicio?addMonths(l.inicio,l.prazo):null;
+    return`<tr>
+      <td>${im?im.tamanho+' — '+im.endereco:'—'}</td>
+      <td>${cl?cl.nome:'—'}</td>
+      <td>${fmtDate(l.inicio)}</td>
+      <td>${l.prazo} meses<br><span style="font-size:11px;color:var(--g500)">até ${fmtDate(fim)}</span></td>
+      <td>${l.valor?fmtMoney(l.valor):'—'}</td>
+      <td><div class="row-actions">
+        <button class="btn ${l.ativa?'btn-warn':''}" style="padding:3px 8px;font-size:11px" onclick="toggleLocacao('${l.id}')">${l.ativa?'Encerrar':'Reativar'}</button>
+        <button class="btn btn-danger" style="padding:3px 8px;font-size:11px" onclick="delLocacao('${l.id}')">Excluir</button>
+      </div></td>
+    </tr>`}).join('');
+}
+function toggleLocacao(id){const l=locacoes.find(x=>x.id===id);if(l){l.ativa=!l.ativa;save();renderLocacoes();renderDashboard();renderRelatorio()}}
+function delLocacao(id){if(!confirm('Excluir locação?'))return;locacoes=locacoes.filter(x=>x.id!==id);save();renderLocacoes();renderDashboard()}
+
+function renderDashboard(){
+  const total=imoveis.length,ocupados=imoveis.filter(im=>isOcupado(im.id)).length,livres=total-ocupados;
+  const taxa=total?Math.round(ocupados/total*100):0;
+  document.getElementById('m-total').textContent=total;
+  document.getElementById('m-ocupados').textContent=ocupados;
+  document.getElementById('m-livres').textContent=livres;
+  document.getElementById('m-taxa').textContent=taxa+'%';
+  const di=document.getElementById('dash-imoveis');
+  di.innerHTML=imoveis.length?imoveis.slice(-5).map(im=>{
+    const ocup=isOcupado(im.id);
+    return`<div class="dash-item"><span style="font-size:13px;color:var(--color-text-primary)">${im.tamanho} — ${im.endereco}</span><span class="badge ${ocup?'badge-green':'badge-amber'}">${ocup?'Ocupado':'Livre'}</span></div>`
+  }).join(''):'<div class="empty-state">Nenhum imóvel cadastrado.</div>';
+  const dl=document.getElementById('dash-locacoes');
+  const ativas=locacoes.filter(x=>x.ativa);
+  dl.innerHTML=ativas.length?ativas.slice(-5).map(l=>{
+    const im=imoveis.find(x=>x.id===l.imovelId);
+    const cl=clientes.find(x=>x.id===l.clienteId);
+    return`<div class="dash-item"><div><div style="font-size:13px;font-weight:500;color:var(--g800)">${cl?cl.nome:'—'}</div><div style="font-size:12px;color:var(--g500)">${im?im.endereco:'—'} · ${l.prazo} meses</div></div><span style="font-size:12px;color:var(--g400)">${l.valor?fmtMoney(l.valor):''}</span></div>`
+  }).join(''):'<div class="empty-state">Nenhuma locação ativa.</div>';
+}
+
+function renderRelatorio(){
+  const filtro=document.getElementById('filtro-relatorio').value;
+  const el=document.getElementById('relatorio-content');
+  if(!imoveis.length){el.innerHTML='<div class="empty-state">Cadastre imóveis para visualizar o relatório.</div>';return}
+  let lista=imoveis;
+  if(filtro==='ocupado')lista=imoveis.filter(im=>isOcupado(im.id));
+  if(filtro==='livre')lista=imoveis.filter(im=>!isOcupado(im.id));
+  if(!lista.length){el.innerHTML='<div class="empty-state">Nenhum imóvel nesta categoria.</div>';return}
+  el.innerHTML=lista.map(im=>{
+    const ocup=isOcupado(im.id);
+    const loc=locacoes.find(l=>l.imovelId===im.id&&l.ativa);
+    const cl=loc?clientes.find(x=>x.id===loc.clienteId):null;
+    const fim=loc&&loc.inicio?addMonths(loc.inicio,loc.prazo):null;
+    return`<div class="report-row ${ocup?'occupied':'free'}">
+      <div class="rinfo">
+        <div class="raddr">${im.tamanho} — ${im.endereco}${im.bairro?', '+im.bairro:''} — CEP ${im.cep||'—'} · ${im.cidade||''} ${im.uf||''}</div>
+        <div class="rdetail">${im.quartos||'—'} quarto(s) · ${im.area||'—'} m² · Aluguel: ${im.valorAluguel?fmtMoney(im.valorAluguel)+'/mês':'—'}</div>
+        ${ocup&&loc?`<div class="rdetail" style="margin-top:3px;color:var(--g600)">Locatário: <strong style="color:var(--g800)">${cl?cl.nome:'—'}</strong> · Início: ${fmtDate(loc.inicio)} · ${loc.prazo} meses · Término: ${fmtDate(fim)}</div>`:''}
+      </div>
+      <span class="badge ${ocup?'badge-green':'badge-amber'}" style="flex-shrink:0">${ocup?'Ocupado':'Disponível'}</span>
+    </div>`}).join('');
+}
+
+renderDashboard();
+</script>
