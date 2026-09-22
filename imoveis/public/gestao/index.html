@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Gestão Casa</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230f2f22'/%3E%3Crect x='5' y='5' width='22' height='22' rx='4' fill='%23e9b824'/%3E%3Ctext x='16' y='20.5' text-anchor='middle' font-family='Arial' font-size='10' font-weight='700' fill='%230f2f22'%3EGC%3C/text%3E%3C/svg%3E" />
+    <link rel="stylesheet" href="styles.css?v=20260919-7" />
+  </head>
+  <body>
+    <div id="app" class="app-shell">
+      <aside class="sidebar">
+        <div class="brand">
+          <span class="brand-mark">GC</span>
+          <div>
+            <strong>gestãocasa</strong>
+            <small>PATRIMÔNIO & FAMÍLIA</small>
+          </div>
+        </div>
+
+        <nav class="module-nav" aria-label="Módulos">
+          <button class="nav-item active" data-module="dashboard">Dashboard</button>
+          <button class="nav-item" data-module="properties">Imóveis</button>
+          <button class="nav-item" data-module="movements">Movimentações</button>
+          <button class="nav-item" data-module="maintenance">Manutenções/Benfeitorias</button>
+          <button class="nav-item" data-module="documents">Documentos</button>
+          <button class="nav-item" data-module="taxes">Obrigações fiscais</button>
+          <button class="nav-item" data-module="contracts">Contratos/Locações</button>
+          <button class="nav-item" data-module="reports">Relatórios</button>
+          <button class="nav-item" data-module="people">Pessoas e acessos</button>
+          <button class="nav-item" data-module="settings">Configurações</button>
+        </nav>
+
+        <div class="sidebar-footer">
+          <div id="account-summary" class="account-summary" hidden>
+            <strong id="account-name"></strong>
+            <small id="account-role"></small>
+            <a href="/signout-with-chatgpt?return_to=%2F" target="_top">Sair</a>
+          </div>
+          <div id="storage-status" class="storage-pill">Salvo neste navegador</div>
+        </div>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">ESPAÇO DA FAMÍLIA</p>
+            <h1 id="module-title">Dashboard</h1>
+          </div>
+          <div class="topbar-actions">
+            <label class="period-control">
+              <span>Mês/Ano</span>
+              <input id="period-filter" type="month" />
+            </label>
+            <button id="refresh-data" class="ghost-button" type="button">Atualizar</button>
+            <button id="new-movement-top" class="primary-button" type="button">Nova movimentação</button>
+          </div>
+        </header>
+
+        <section id="content" class="content-area" aria-live="polite"></section>
+      </main>
+    </div>
+
+    <dialog id="entity-dialog" class="entity-dialog">
+      <form method="dialog" id="entity-form" class="dialog-card">
+        <div class="dialog-header">
+          <div>
+            <p class="eyebrow" id="dialog-eyebrow">Cadastro</p>
+            <h2 id="dialog-title">Novo registro</h2>
+          </div>
+          <button class="icon-button" value="cancel" aria-label="Fechar" type="submit">×</button>
+        </div>
+        <div id="dialog-body" class="dialog-body"></div>
+        <div class="dialog-actions">
+          <button class="ghost-button" value="cancel" type="submit">Cancelar</button>
+          <button id="dialog-submit" class="primary-button" value="default" type="submit">Salvar</button>
+        </div>
+      </form>
+    </dialog>
+
+    <template id="empty-state-template">
+      <div class="empty-state">
+        <strong>Nenhum registro encontrado</strong>
+        <span>Use o botão de cadastro para iniciar este módulo.</span>
+      </div>
+    </template>
+
+    <script src="app.js?v=20260919-7"></script>
+  </body>
+</html>
